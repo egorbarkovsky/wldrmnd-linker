@@ -64,7 +64,7 @@ class AddControllerTest {
 
     @Test
     fun whenUserAddLinkByFormHeTakesAWebPage() {
-        mockMvc.perform(MockMvcRequestBuilders.post("/addhtml")
+        mockMvc.perform(MockMvcRequestBuilders.post("/success")
                 .param("link", LINK)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(MockMvcResultMatchers.status().isOk)
