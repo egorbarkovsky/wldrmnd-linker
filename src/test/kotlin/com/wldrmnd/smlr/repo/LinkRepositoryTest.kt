@@ -13,7 +13,8 @@ import org.hamcrest.Matchers.*
 import org.hamcrest.MatcherAssert.assertThat
 
 @DatabaseSetup(LinkRepositoryTest.DATASET)
-@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL, value = [LinkRepositoryTest.DATASET])
+@DatabaseTearDown(type = DatabaseOperation.DELETE_ALL,
+                  value = [LinkRepositoryTest.DATASET])
 class LinkRepositoryTest : AbstractRepositoryTest() {
 
     @Autowired
@@ -48,6 +49,7 @@ class LinkRepositoryTest : AbstractRepositoryTest() {
 
         private const val LINK_1_ID: Long = 100500L
         private const val LINK_1_TEXT: String = "http://www.eveonline.com"
+
         private const val LINK_TBS_TEXT: String = "http://www.ru"
         private const val LINK_NOT_FOUND: Long = 1L
     }

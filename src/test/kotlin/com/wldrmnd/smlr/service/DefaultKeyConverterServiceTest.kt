@@ -8,6 +8,7 @@ import kotlin.math.abs
 class DefaultKeyConverterServiceTest {
 
     val service : KeyConverterService = DefaultKeyConverterService()
+
     @Test
     fun givenIdMustBeConverableBothWays() {
         val rand = Random()

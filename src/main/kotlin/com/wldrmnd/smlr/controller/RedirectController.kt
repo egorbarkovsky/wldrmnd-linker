@@ -16,13 +16,14 @@ class RedirectController {
     @Autowired
     lateinit var service : KeyMapperService
 
+
     @GetMapping
     fun home() = "home"
 
-    @RequestMapping("/{key}")
+    @GetMapping("/{key}")
     fun redirect(@PathVariable("key") key : String,
                  response : HttpServletResponse) {
-        println("$key!")
+
         when (val result = service.getLink(key)) {
             is KeyMapperService.Get.Link -> {
                 response.setHeader(HEADER_NAME, result.link)
