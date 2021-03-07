@@ -1,35 +1,31 @@
 package com.wldrmnd.smlr.service
 
+import com.wldrmnd.smlr.model.Link
+import com.wldrmnd.smlr.model.repo.LinkRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.atomic.AtomicLong
+import javax.transaction.Transactional
 
 @Component
 class DefaultKeyMapperService : KeyMapperService {
 
     @Autowired
-    lateinit var converter : KeyConverterService
+    lateinit var converter: KeyConverterService
 
-    val sequence = AtomicLong(10000000L)
+    @Autowired
+    lateinit var repo: LinkRepository
 
-    private val map: MutableMap<Long, String> = ConcurrentHashMap()
+    @Transactional
+    override fun add(link: String) =
+            converter.idToKey(repo.save(Link(link)).id)
 
     override fun getLink(key: String): KeyMapperService.Get {
-        val id = converter.keyToId(key)
-        val result = map[id]
+        val result = repo.findById(converter.keyToId(key))
 
-        return if (result == null) {
-            KeyMapperService.Get.NotFound(key)
+        return if (result.isPresent) {
+            KeyMapperService.Get.Link(result.get().text)
         } else {
-            KeyMapperService.Get.Link(result)
+            KeyMapperService.Get.NotFound(key)
         }
-    }
-
-    override fun add(link: String): String {
-        val id = sequence.getAndIncrement()
-        val key = converter.idToKey(id)
-        map.put(id, link)
-        return key
     }
 }
